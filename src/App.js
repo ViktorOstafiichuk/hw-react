@@ -1,4 +1,5 @@
 import Rickandmortys from "./rickandmorty/rickandmortys";
+import './index.css';
 
 function App() {
   return (

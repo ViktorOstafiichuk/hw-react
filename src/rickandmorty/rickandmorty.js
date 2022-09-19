@@ -2,7 +2,7 @@ export default function Rickandmorty (props) {
     let {item} = props;
 
     return (
-        <div>
+        <div className={'box'}>
             <h1>{item.id} -- {item.name}</h1>
             <ol>
                 <li>{item.status}</li>
