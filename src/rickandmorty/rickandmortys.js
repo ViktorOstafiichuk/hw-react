@@ -7,7 +7,7 @@ export default function Rickandmortys () {
     fetch('https://rickandmortyapi.com/api/character')
         .then(value => value.json())
         .then(value => {
-            setRickandmortys(value.results);
+            setRickandmortys(value.results.slice(0,6));
         })
 
 
