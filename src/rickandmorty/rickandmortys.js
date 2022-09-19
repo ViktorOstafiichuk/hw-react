@@ -15,6 +15,7 @@ export default function Rickandmortys () {
     return (
         <div className={'wrap'}>
             {rickandmortys.map((rickandmortys, index) => <Rickandmorty key={index} item={rickandmortys}/>)}
+
         </div>
     );
 }
