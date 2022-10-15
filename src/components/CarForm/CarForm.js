@@ -2,10 +2,10 @@ import {set, useForm} from "react-hook-form";
 import {joiResolver} from '@hookform/resolvers/joi';
 
 import {carValidator} from "../../validators";
-import {userService} from "../../services/user.service";
+import {carService} from "../../services/car.service";
 import {useEffect} from "react";
 
-const CarForm = ({setUser, userForUpdate, setUserForUpdate}) => {
+const CarForm = ({setCars: setCar, carForUpdate, setCarForUpdate}) => {
     const {
         register, handleSubmit, reset, formState: {errors, isValid}, setValue
     } = useForm({
@@ -14,26 +14,26 @@ const CarForm = ({setUser, userForUpdate, setUserForUpdate}) => {
     });
 
     useEffect(() => {
-        if (userForUpdate) {
-            setValue('model', userForUpdate.model, {shouldValidate: true});
-            setValue('price', userForUpdate.price, {shouldValidate: true});
-            setValue('year', userForUpdate.year, {shouldValidate: true});
+        if (carForUpdate) {
+            setValue('model', carForUpdate.model, {shouldValidate: true});
+            setValue('price', carForUpdate.price, {shouldValidate: true});
+            setValue('year', carForUpdate.year, {shouldValidate: true});
         }
-    }, [userForUpdate, setValue]);
+    }, [carForUpdate, setValue]);
 
     const submit = async (car) => {
 
-        if (userForUpdate) {
-            const {data} = await userService.updateById(userForUpdate.id, car);
-            setUser((cars) => {
-                const findCar = cars.find(value => value.id === userForUpdate.id);
+        if (carForUpdate) {
+            const {data} = await carService.updateById(carForUpdate.id, car);
+            setCar((cars) => {
+                const findCar = cars.find(value => value.id === carForUpdate.id);
                 Object.assign(findCar, data);
-                setUserForUpdate(null);
+                setCarForUpdate(null);
                 return [...cars]
             })
         } else {
-            const {data} = await userService.create(car);
-            setUser(users => [...users, data]);
+            const {data} = await carService.create(car);
+            setCar(cars => [...cars, data]);
         }
 
         reset()
@@ -43,14 +43,6 @@ const CarForm = ({setUser, userForUpdate, setUserForUpdate}) => {
 
 
         <form onSubmit={handleSubmit(submit)}>
-            <input type="text" placeholder={'name'} {...register('name')}/>
-            <input type="text" placeholder={'username'} {...register('username')}/>
-            <input type="text" placeholder={'email'} {...register('email')}/>
-
-
-
-
-
             <input type="text" placeholder={'model'} {...register('model')}/>
             {errors.model && <span>{errors.model.message}</span>}
             <input type="text"
@@ -60,7 +52,7 @@ const CarForm = ({setUser, userForUpdate, setUserForUpdate}) => {
                    placeholder={'year'} {...register('year', {valueAsNumber: true})}/>
             {errors.year && <span>{errors.year.message}</span>}
             <button
-                disabled={!isValid}>{userForUpdate ? 'Update' : 'Save'}</button>
+                disabled={!isValid}>{carForUpdate ? 'Update' : 'Save'}</button>
         </form>);
 };
 
