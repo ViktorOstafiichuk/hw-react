@@ -1,25 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from "react";
+
+import {Users} from "./components";
+import {Posts} from "./components";
+import {postService} from "./services";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [posts, setPosts] = useState([]);
+    const getUserId = (userId) => {
+        postService.getPost(userId).then(({data}) => setPosts(data))
+    }
+
+
+    return (
+        <div className="App">
+            <Users getUserId={getUserId}/>
+            <Posts posts={posts}/>
+        </div>
+    );
 }
 
 export default App;
