@@ -5,3 +5,5 @@ export * from './album/Album';
 export * from './comments/Comments';
 export * from './comment/Comment';
 export * from './home/Home';
+export * from './posts/Posts';
+export * from './post/Post';

@@ -1,12 +1,10 @@
 import './App.css';
 import {
-    BrowserRouter,
     Routes,
     Route,
     Link,
-    Outlet
 } from "react-router-dom";
-import {Albums, Comments, Todos} from "./components";
+import {Albums, Comments, Posts, Todos} from "./components";
 import Home from "./components/home/Home";
 
 
@@ -26,8 +24,9 @@ function App() {
                 <Route path={'/'} element={<Home/>}/>
                 <Route path={'/todos'} element={<Todos/>}/>
                 <Route path={'/albums'} element={<Albums/>}/>
-                <Route path={'/comments'} element={<Comments/>}/>
-
+                <Route path={'/comments'} element={<Comments/>}>
+                    <Route path={':postId'} element={<Posts/>}/>
+                </Route>
             </Routes>
         </div>
     );
