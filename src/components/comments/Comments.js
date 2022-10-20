@@ -10,7 +10,7 @@ const Comments = () => {
         fetch('https://jsonplaceholder.typicode.com/comments')
             .then(value => value.json())
             .then(value => setComments(value))
-    });
+    }, []);
     return (
         <div>
             <Outlet/>
