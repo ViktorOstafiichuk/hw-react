@@ -1,6 +1,6 @@
 import {carService} from "../../services";
 
-const Car = ({car, setCars}) => {
+const Car = ({car, setCars, setCarsForUpdate}) => {
     const {id, model, price, year, photo} = car;
     const sendPhoto = async (e) => {
         const formData = new FormData();
@@ -11,8 +11,18 @@ const Car = ({car, setCars}) => {
             const find = cars.find(car => car.id === id);
             Object.assign(find, {...data, photo: URL.createObjectURL(file)})
             return [...cars]
-        })
-    }
+        });
+    };
+
+    const deleteCar = async () => {
+        await carService.deleteById(id);
+        setCars(car => {
+            const index = car.findIndex(value => value.id === id);
+            car.splice(index, 1);
+            console.log([...car]);
+            return [...car];
+        });
+    };
 
     return (
         <div>
@@ -25,6 +35,10 @@ const Car = ({car, setCars}) => {
             :
                 <input type="file" onChange={sendPhoto}/>
             }
+            <div>
+                <button onClick={() => setCarsForUpdate(car)}>Update</button>
+                <button onClick={() => deleteCar()}>Delete</button>
+            </div>
         </div>
     );
 };

@@ -9,6 +9,8 @@ const CarsPage = () => {
     const [prev, setPrev] = useState(null);
     const [next, setNext] = useState(null);
 
+    const [carForUpdate, setCarForUpdate] = useState(null);
+
 
     const [query, setQuery] = useSearchParams({page: '1'});
 
@@ -28,11 +30,15 @@ setQuery(value => ({page:value.get('page')-1}))
         setQuery(value => ({page:+value.get('page')+1}))
     }
 
+
+
+
     return (
         <div>
-            <CarForm/>
+
+            <CarForm setCars={setCars} carForUpdate={carForUpdate} setCarForUpdate={setCarForUpdate}/>
             <hr/>
-            <Cars cars={cars} setCars={setCars}/>
+            <Cars cars={cars} setCars={setCars} setCarForUpdate={setCarForUpdate}/>
             <button disabled={!prev} onClick={prevPage}>prevPage</button>
             <button disabled={!next} onClick={nextPage}>nextPage</button>
         </div>
