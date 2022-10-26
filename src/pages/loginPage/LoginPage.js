@@ -1,10 +1,13 @@
 import {useForm} from "react-hook-form";
+import {useNavigate, useSearchParams} from "react-router-dom";
+
 import {authService} from "../../services";
-import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     const {handleSubmit, register} = useForm();
     const navigate = useNavigate();
+
+    const [query,] = useSearchParams();
 
     const submit =async (user) => {
     try {
@@ -18,6 +21,7 @@ const LoginPage = () => {
 
     return (
         <div>
+            {query.has('expSession') && <h1>session end</h1>}
             <form onSubmit={handleSubmit(submit)}>
                 <input type="text"
                        placeholder={'username'} {...register('username')}/>

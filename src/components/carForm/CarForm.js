@@ -4,7 +4,7 @@ const CarForm = () => {
     const {handleSubmit, register} = useForm();
     return (
         <div>
-
+CarForm
         </div>
     );
 };

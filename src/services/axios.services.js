@@ -40,4 +40,4 @@ axiosServices.interceptors.response.use((config) => {
     }
 )
 
-export {axiosServices, history}
+export {axiosServices, history};
