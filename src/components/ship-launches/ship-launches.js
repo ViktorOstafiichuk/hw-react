@@ -17,6 +17,7 @@ export default function Ships() {
 
     return (
         <div className='wrap'>
+
             {ships.map((ship, index) => <Ship key={index} ship={ship}/>)}
         </div>
     );
