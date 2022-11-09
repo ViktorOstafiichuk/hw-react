@@ -1,59 +1,96 @@
-import { useForm} from "react-hook-form";
-import {joiResolver} from '@hookform/resolvers/joi';
-
+import {useForm} from "react-hook-form";
+import {joiResolver} from "@hookform/resolvers/joi";
 import {carValidator} from "../../validators";
-import {carService} from "../../services/car.service";
+
+import css from './CarForm.module.css';
+import {
+    carServicePost,
+    carServiceUpdate
+} from "../../services/car.service.fetch";
 import {useEffect} from "react";
 
-const CarForm = ({setCars: setCar, carForUpdate, setCarForUpdate}) => {
-    const {
-        register, handleSubmit, reset, formState: {errors, isValid}, setValue
-    } = useForm({
-        resolver: joiResolver(carValidator),
-        mode: 'all'
-    });
+
+const CarForm = ({setCars, carForUpdate, setCarForUpdate}) => {
+    let {
+        register,
+        handleSubmit,
+        reset,
+        formState: {errors, isValid},
+        setValue
+    } = useForm({resolver: joiResolver(carValidator), mode: 'all'});
 
     useEffect(() => {
         if (carForUpdate) {
-            setValue('model', carForUpdate.model, {shouldValidate: true});
-            setValue('price', carForUpdate.price, {shouldValidate: true});
-            setValue('year', carForUpdate.year, {shouldValidate: true});
+            setValue('model', carForUpdate.model, {shouldValidate: true})
+            setValue('price', carForUpdate.price, {shouldValidate: true})
+            setValue('year', carForUpdate.year, {shouldValidate: true})
         }
     }, [carForUpdate, setValue]);
 
-    const submit = async (car) => {
+    // useEffect(() => {
+    //     setValue('model', 'opel')
+    //     setValue('price', '9999')
+    //     setValue('year', '1996')
+    // }, [])
 
-        if (carForUpdate) {
-            const {data} = await carService.updateById(carForUpdate.id, car);
-            setCar((cars) => {
-                const findCar = cars.find(value => value.id === carForUpdate.id);
-                Object.assign(findCar, data);
-                setCarForUpdate(null);
-                return [...cars]
-            })
-        } else {
-            const {data} = await carService.create(car);
-            setCar(cars => [...cars, data]);
+    const submit = async (car) => {
+        if (carForUpdate){
+await carServiceUpdate(carForUpdate.id, car).then(value => setCars((cars => {
+    let find = cars.find(value => value.id === carForUpdate.id);
+    Object.assign(find, value)
+    setCarForUpdate(null);
+    return [...cars]
+})))
         }
 
+        await carServicePost(car)
+            .then(value =>
+                setCars(cars => [...cars, value]))
         reset()
     };
 
     return (
+        <form onSubmit={handleSubmit(submit)} className={css.CarForm}>
 
+            {/* не елегантний варіант імпутів з валідатором */}
+            {/*<div className={css.input}>*/}
+            {/*    <input type="text" placeholder={'model'} {...register('model', {*/}
+            {/*        required: true,*/}
+            {/*        minLength: {value: 2, message: 'мінімум 2 букви'}*/}
+            {/*    })}/>*/}
+            {/*    {errors.model && <span>{errors.model.message}</span>}*/}
+            {/*</div>*/}
 
-        <form onSubmit={handleSubmit(submit)}>
-            <input type="text" placeholder={'model'} {...register('model')}/>
-            {errors.model && <span>{errors.model.message}</span>}
-            <input type="text"
-                   placeholder={'price'} {...register('price', {valueAsNumber: true})}/>
-            {errors.price && <span>{errors.price.message}</span>}
-            <input type="text"
-                   placeholder={'year'} {...register('year', {valueAsNumber: true})}/>
-            {errors.year && <span>{errors.year.message}</span>}
-            <button
-                disabled={!isValid}>{carForUpdate ? 'Update' : 'Save'}</button>
-        </form>);
+            {/*<div className={css.input}>*/}
+            {/*    <input type="text"*/}
+            {/*           placeholder={'price'} {...register('price', {valueAsNumber: true, required: true})}/>*/}
+            {/*</div>*/}
+            {/*<div className={css.input}>*/}
+            {/*    <input type="text"*/}
+            {/*           placeholder={'year'} {...register('year', {valueAsNumber: true})}/>*/}
+
+            {/*</div>*/}
+
+            {/* Елегантний варіант імпутів з валідатором */}
+            <div className={css.input}>
+                <input type="text"
+                       placeholder={'model'} {...register('model')}/>
+                {errors.model && <span>{errors.model.message}</span>}
+            </div>
+
+            <div className={css.input}>
+                <input type="text"
+                       placeholder={'price'} {...register('price', {valueAsNumber: true})}/>
+                {errors.price && <span>{errors.price.message}</span>}
+            </div>
+            <div className={css.input}>
+                <input type="text"
+                       placeholder={'year'} {...register('year', {valueAsNumber: true})}/>
+                {errors.year && <span>{errors.year.message}</span>}
+            </div>
+            <button disabled={!isValid}>{carForUpdate?'Update':'Save'}</button>
+        </form>
+    );
 };
 
 export {CarForm};

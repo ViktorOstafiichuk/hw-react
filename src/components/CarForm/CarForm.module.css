@@ -1,0 +1,12 @@
+.CarForm{
+display: flex;
+    height: 40px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+}
+button {
+    height: 20px;
+}
