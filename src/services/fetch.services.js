@@ -12,7 +12,7 @@ const fetchServices = (url, method, data, set) => {
 
     }
 
-}
+};
 
 
 export {fetchServices};
