@@ -9,3 +9,4 @@ export * from './Home/Home';
 export * from './Posts/Posts';
 export * from './Post/Post';
 export * from './UserDetails/UserDetails';
+export * from './PostDetail/PostDetail';

@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {fetchServices} from "../../services/fetch.services";
+import {Outlet} from "react-router-dom";
+
 import {Post} from "../Post/Post";
 
 const Posts = () => {
@@ -10,6 +12,7 @@ const Posts = () => {
 
     return (
         <div>
+            <Outlet/>
             {posts.map(post => <Post key={post.id} post={post}/>)}
         </div>
     )

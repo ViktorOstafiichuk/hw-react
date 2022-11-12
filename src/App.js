@@ -4,16 +4,8 @@ import {
     Route,
     Link,
 } from "react-router-dom";
-// import {Albums, Comments, Posts, Todos} from "./components";
-// import Home from "./components/home/Home";
-// import {Users} from "./components/Users/Users";
-import {Cars} from "./components/Cars/Cars";
-import {Home} from "./components/Home/Home";
-import {Users} from "./components/Users/Users";
-import {Posts} from "./components/Posts/Posts";
-import {UserDetails} from "./components/UserDetails/UserDetails";
-// import {Albums} from "./components/Albums/Albums";
 
+import {Home, Users, UserDetails, Posts, Albums, Cars, PostDetail} from "./components/main";
 
 function App() {
     return (
@@ -41,6 +33,7 @@ function App() {
                 <li><Link to={'/'}>Home</Link></li>
                 <li><Link to={'/users'}>user</Link></li>
                 <li><Link to={'/posts'}>posts</Link></li>
+                <li><Link to={'/albums'}>album</Link></li>
                 <li><Link to={'/cars'}>cars</Link></li>
             </ul>
 
@@ -49,13 +42,12 @@ function App() {
                 <Route path={'/'} element={<Home/>}></Route>
                 <Route path={'/users'} element={<Users/>}></Route>
                 <Route path={'/users/:id'} element={<UserDetails/>}></Route>
-                <Route path={'/posts'} element={<Posts/>}></Route>
+                <Route path={'/posts'} element={<Posts/>}>
+                    <Route path={'/posts/:id'} element={<PostDetail/>}></Route>
+                </Route>
+                <Route path={'/albums'} element={<Albums/>}></Route>
                 <Route path={'/cars'} element={<Cars/>}></Route>
             </Routes>
-            {/*<Cars/>*/}
-
-            {/*<Users/>*/}
-            {/*<Albums/>*/}
         </div>
     );
 }
