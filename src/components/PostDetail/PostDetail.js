@@ -12,7 +12,7 @@ const PostDetail = () => {
     },[params]);
     return (
         <div>
-            {postDetail.id} -
+            {postDetail.id} - {postDetail.title}
         </div>
     );
 };
