@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import {Route, Routes, Navigate} from 'react-router-dom';
+
+
 import './App.css';
+import {MainLayout} from "./layouts/MainLayout/mainLayout";
+import {
+    HomePage,
+    UsersPage,
+    PostPage,
+    AboutPage,
+    NotFoundPage
+} from "./pages/main";
+import {PostDetailPage} from "./pages/PostDetailPage/PostDetailPage";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Routes>
+            <Route path={'/'} element={<MainLayout/>}>
+                <Route index element={<Navigate to={'home'}/>}/>
+                <Route path={'home'} element={<HomePage/>}/>
+                <Route path={'users'} element={<UsersPage/>}/>
+                <Route path={'posts'} element={<PostPage/>}>
+                    <Route path={':id'} element={<PostDetailPage/>}/>
+                </Route>
+                <Route path={'about'} element={<AboutPage/>}/>
+            </Route>
+            <Route path={'*'} element={<NotFoundPage/>}/>
+
+        </Routes>
+    );
 }
 
 export default App;
