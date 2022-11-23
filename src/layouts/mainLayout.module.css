@@ -1,0 +1,14 @@
+.mainLayout {
+display: flex;
+    gap: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    width: 80px;
+}
+
+.main {
+
+}
